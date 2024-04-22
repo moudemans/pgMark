@@ -4,6 +4,8 @@
 #include "opcode.h"
 #include <memory>
 
+#include <limits>
+
 class In : public Opcode {
 private:
     const std::vector<std::shared_ptr<const Opcode>> m_Args;

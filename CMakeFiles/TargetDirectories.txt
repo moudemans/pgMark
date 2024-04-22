@@ -1,0 +1,5 @@
+/mnt/c/Users/moude/CLionProjects/pgMark/CMakeFiles/pugixml.dir
+/mnt/c/Users/moude/CLionProjects/pgMark/CMakeFiles/regex.dir
+/mnt/c/Users/moude/CLionProjects/pgMark/CMakeFiles/pgMark.dir
+/mnt/c/Users/moude/CLionProjects/pgMark/CMakeFiles/edit_cache.dir
+/mnt/c/Users/moude/CLionProjects/pgMark/CMakeFiles/rebuild_cache.dir
