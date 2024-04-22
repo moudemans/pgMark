@@ -25,6 +25,9 @@ void GraphGenerator::generateRandomEdges(const RelationDistribution &a_Relation,
     const std::string &predicate = a_Relation.getPredicate();
     const bool loops_allowed = a_Relation.getLoopsAreAllowed();
     const bool parallel_edges_allowed = a_Relation.getParallelEdgesAreAllowed();
+    const std::string& alias_from = a_Relation.getSource();
+    const std::string& alias_to = a_Relation.getTarget();
+
 
     std::vector<int> source_nodes = generateNodeDistributions(a_Relation.getOutDistribution(), source_range.first,
                                                               source_range.second);
@@ -37,7 +40,9 @@ void GraphGenerator::generateRandomEdges(const RelationDistribution &a_Relation,
     std::mt19937 generator{std::random_device{}()};
     const bool sources_are_shuffled = source_nodes.size() >= target_nodes.size();
     auto &shuffled_nodes = sources_are_shuffled ? source_nodes : target_nodes;
+    auto &shuffled_nodes_labels = sources_are_shuffled ? alias_from : alias_to;
     const auto &fixed_nodes = sources_are_shuffled ? target_nodes : source_nodes;
+    const auto &fixed_nodes_labels = sources_are_shuffled ? alias_to : alias_from;
     shuffle(shuffled_nodes.begin(), shuffled_nodes.end(), generator);
     const auto *fixed_nodes_distribution = sources_are_shuffled ? a_Relation.getInDistribution()
                                                                 : a_Relation.getOutDistribution();
@@ -58,9 +63,9 @@ void GraphGenerator::generateRandomEdges(const RelationDistribution &a_Relation,
         }
         if (loops_allowed || shuffled != fixed) {
             if (sources_are_shuffled) {
-                writeEdge(shuffled, fixed, predicate, a_OutputStream);
+                writeEdge(shuffled, fixed, predicate, shuffled_nodes_labels, fixed_nodes_labels, a_OutputStream);
             } else {
-                writeEdge(fixed, shuffled, predicate, a_OutputStream);
+                writeEdge(fixed, shuffled, predicate, fixed_nodes_labels, shuffled_nodes_labels, a_OutputStream);
             }
         }
     }
