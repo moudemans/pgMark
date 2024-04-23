@@ -69,13 +69,19 @@ void GraphGenerator::generateRandomEdges(const RelationDistribution &a_Relation,
             }
             const auto &attributes = m_Config.getPredicateAttributes(predicate);
 
-            a_OutputStream << "Parameters:" << "\n";
+
             if (!attributes.empty()) {
+                a_OutputStream << ",$Attributes$";
                 for (const auto &attribute : attributes) {
                     auto &attribute_name = attribute->getName();
-                    a_OutputStream << "A_" << predicate << ": " <<   attribute_name   << "\n";
+                    std::string random_attribute = attribute->getRandomAttribute();
+                    a_OutputStream << "," <<   attribute_name <<  "," << random_attribute;
                 }
+
             }
+            // Create new line as all atributes have been written
+            a_OutputStream << "\n";
+
         }
     }
 }

@@ -16,7 +16,7 @@ protected:
     void writeEdge(const int a_Source, const int a_Target, const std::string &a_Predicate,
                    const std::string &source_label, const std::string &target_label, std::ostream &a_OutputStream) const {
         // TODO: get unique ID of predicate instead.
-        a_OutputStream << source_label << '_' << a_Source << ',' << a_Predicate << ',' << target_label << '_' << a_Target << "\n";
+        a_OutputStream << source_label << '_' << a_Source << ',' << a_Predicate << ',' << target_label << '_' << a_Target ;
     }
 
 public:
