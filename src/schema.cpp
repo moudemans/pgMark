@@ -14,6 +14,8 @@ Schema::Schema(const pugi::xml_node a_TypesNode, const pugi::xml_node a_Predicat
     std::set<std::string> type_names = getUniqueNodeNames(a_TypesNode, "type");
     m_Predicates = getUniqueNodeNames(a_PredicatesNode, "predicate");
 
+    getPredicates2(m_Predicates2, a_PredicatesNode);
+
     if (doSetsOverlap(type_names, m_Predicates)) {
         throw std::invalid_argument("The type and predicate names overlap");
     }
@@ -66,6 +68,20 @@ bool Schema::doSetsOverlap(const std::set<std::string> &a_TypeNames, const std::
 void Schema::getTypes(std::map<std::string, std::vector<std::unique_ptr<Attribute>>> &a_Types,
                       const pugi::xml_node a_TypesNode) {
     for (pugi::xml_node type : a_TypesNode.children("type")) {
+        std::string name = type.attribute("name").as_string();
+        if (name.empty()) {
+            throw std::invalid_argument("Type name cannot be empty.");
+        }
+        if (a_Types.find(name) != a_Types.end()) {
+            throw std::invalid_argument("Duplicate type found: " + name);
+        }
+        a_Types.emplace(name, getAttributes(type.child("attributes")));
+    }
+}
+
+void Schema::getPredicates2(std::map<std::string, std::vector<std::unique_ptr<Attribute>>> &a_Types,
+                      const pugi::xml_node a_TypesNode) {
+    for (pugi::xml_node type : a_TypesNode.children("predicate")) {
         std::string name = type.attribute("name").as_string();
         if (name.empty()) {
             throw std::invalid_argument("Type name cannot be empty.");

@@ -12,6 +12,7 @@ class Schema {
 private:
     std::set<std::string> m_Predicates;
     std::map<std::string, std::vector<std::unique_ptr<Attribute>>> m_Types;
+    std::map<std::string, std::vector<std::unique_ptr<Attribute>>> m_Predicates2;
     std::map<std::string, int> m_Constraints;
     std::vector<RelationDistribution> m_RelationDistributions;
     static const std::regex m_DateRegex;
@@ -19,6 +20,9 @@ private:
     static const double m_LenientCategoryProbabilityEpsilon;
 
     static void getTypes(std::map<std::string, std::vector<std::unique_ptr<Attribute>>> &a_Types,
+                         const pugi::xml_node a_TypesNode);
+
+    static void getPredicates2(std::map<std::string, std::vector<std::unique_ptr<Attribute>>> &a_Types,
                          const pugi::xml_node a_TypesNode);
 
     static std::unique_ptr<NumericAttribute> getNumericAttribute(const pugi::xml_node a_AttributeNode,
@@ -84,6 +88,10 @@ public:
 
     const std::map<std::string, std::vector<std::unique_ptr<Attribute>>> &getTypes() const {
         return m_Types;
+    }
+
+    const std::map<std::string, std::vector<std::unique_ptr<Attribute>>> &getPredicates2() const {
+        return m_Predicates2;
     }
 };
 

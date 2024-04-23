@@ -47,6 +47,10 @@ public:
         return m_Schema->getTypes().at(a_TypeName);
     }
 
+    const std::vector<std::unique_ptr<Attribute>> &getPredicateAttributes(const std::string &a_TypeName) const {
+        return m_Schema->getPredicates2().at(a_TypeName);
+    }
+
     const std::map<std::string, int> &getConstraints() const {
         return m_Schema->getConstraints();
     }

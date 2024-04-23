@@ -67,6 +67,15 @@ void GraphGenerator::generateRandomEdges(const RelationDistribution &a_Relation,
             } else {
                 writeEdge(fixed, shuffled, predicate, fixed_nodes_labels, shuffled_nodes_labels, a_OutputStream);
             }
+            const auto &attributes = m_Config.getPredicateAttributes(predicate);
+
+            a_OutputStream << "Parameters:" << "\n";
+            if (!attributes.empty()) {
+                for (const auto &attribute : attributes) {
+                    auto &attribute_name = attribute->getName();
+                    a_OutputStream << "A_" << predicate << ": " <<   attribute_name   << "\n";
+                }
+            }
         }
     }
 }
